@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog
 from design.mainwindow import Ui_MainWindow
 from hardware.status import Intervals
 from ui.table_model import SinglePhotoGateTableModel, DoublePhotoGateTableModel, CheckpointPhotoGateTableModel
-from ui_controller import UIControllerMain, CHECKPOINT_TABLE_HEADERS
+from ui.ui_controller import UIControllerMain, CHECKPOINT_TABLE_HEADERS
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
