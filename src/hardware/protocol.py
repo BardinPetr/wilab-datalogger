@@ -1,9 +1,9 @@
 from typing import Optional
 
 from hardware.commands import *
+from hardware.slots import SlotManager
 from hardware.status import Intervals
 from hardware.usb_adapter import USBAdapter
-from hardware.slots import SlotManager
 
 
 class Interface(USBAdapter):
@@ -48,6 +48,8 @@ class Interface(USBAdapter):
             return None
 
         val = self.call([ReadPortIdentifiers.READ_COUNT[slot]])
+        if val is None:
+            return None
         return val[0]
 
     def get_interval(self, port: int, type: int) -> Optional[int]:
@@ -56,13 +58,18 @@ class Interface(USBAdapter):
             return None
 
         data = self.call([*Commands.READ_INTERVAL, ReadPortIdentifiers.READ_INTERVAL[slot] + type])
+        if data is None:
+            return None
         data = int.from_bytes(data[:2], 'little')
         data /= 10000
         return data
 
-    def get_all(self, port: int) -> Intervals:
+    def get_all(self, port: int) -> Optional[Intervals]:
         data = [self.get_interval(port, i) for i in range(4)]
-        return Intervals(*data, self.get_count(port))
+        count = self.get_count(port)
+        if any(map(lambda x: x is None, data)) or count is None:
+            return None
+        return Intervals(*data, count)
 
     def reset_count(self, port):
         slot = self._slot.slot_by_port(port)
@@ -74,6 +81,8 @@ class Interface(USBAdapter):
 
     def get_voltage(self, i) -> float:
         data = self.call([*Commands.READ, ReadPortIdentifiers.READ_VOLT[i]])
+        if data is None:
+            return 0
         data = data[:2]
         v = int.from_bytes(data, 'big')
         return v / (2 ** 14) * 5

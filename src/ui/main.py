@@ -38,7 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connectionLabel.setText("Connected" if is_connected else "Disconnected")
 
     def _on_intervals_update(self, interval0: Intervals, interval1: Intervals):
-        for uid, data in enumerate([interval0, ]):  # TODO
+        for uid, data in enumerate([interval0, interval1]):
             for field in ['counter', 'interval_up_front', 'interval_down_front', 'time_up', 'time_down']:
                 getattr(self, f"value_{uid}_{field}").display(getattr(data, field))
 

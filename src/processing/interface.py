@@ -13,33 +13,35 @@ class InterfaceController:
     SENSOR_COUNT = 2
 
     def __init__(self, on_conn_state, on_intervals):
+        self._on_conn_state = on_conn_state
         self._on_intervals = on_intervals
 
-        self._ctrl = Interface(on_conn_state)
+        self._ctrl = Interface(self._on_connection_state)
 
-        # self._mp_man = mp.Manager()
-        # self._port_status: ListProxy[Intervals] = self._mp_man.list()
-        self._port_status: List[Intervals] = []
-
-        for i in range(self.SENSOR_COUNT):
-            self._port_status.append(Intervals())
-
+        self._port_status: List[Intervals] = [Intervals() for _ in range(self.SENSOR_COUNT)]
         self.counters = [Counter(i) for i in range(self.SENSOR_COUNT)]
 
-        # self._proc = mp.Process(target=self._run)
+    def _on_connection_state(self, is_connected):
+        if is_connected:
+            self._setup_sensors()
+        self._on_conn_state(is_connected)
 
-    def _init(self):
-        self._ctrl.init()
+    def _setup_sensors(self):
         for i in range(self.SENSOR_COUNT):
             self._ctrl.config_counter(i, self.COUNTER_THRESHOLD, CounterType.COUNT_FRONT_UPDOWN)
 
     def _run(self):
-        self._init()
+        self._ctrl.init()
 
         while True:
             for i in range(2):
-                self._port_status[i] = self._ctrl.get_all(i)
+                data = self._ctrl.get_all(i)
+                if data is None:
+                    data = Intervals()
+
+                self._port_status[i] = data
                 self.counters[i].external_event(self._port_status[i].counter)
+
             self._on_intervals(self._port_status)
 
             sleep(self.UPDATE_INTERVAL)

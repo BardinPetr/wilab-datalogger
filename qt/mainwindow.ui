@@ -46,7 +46,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
@@ -136,12 +136,15 @@
             <item>
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Счетчик по фронту</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLCDNumber" name="value_0_counter">
+              <property name="digitCount">
+               <number>3</number>
+              </property>
               <property name="segmentStyle">
                <enum>QLCDNumber::Flat</enum>
               </property>
@@ -150,28 +153,107 @@
             <item>
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Длительнось импульса (1 и 0), c.</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLCDNumber" name="value_0_time_up"/>
+             <widget class="QLCDNumber" name="value_0_time_up">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="QLCDNumber" name="value_0_time_down"/>
+             <widget class="QLCDNumber" name="value_0_time_down">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Интервал по фронту, по спаду, с.</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLCDNumber" name="value_0_interval_up_front"/>
+             <widget class="QLCDNumber" name="value_0_interval_up_front">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="QLCDNumber" name="value_0_interval_down_front"/>
+             <widget class="QLCDNumber" name="value_0_interval_down_front">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QLabel" name="label11">
+              <property name="text">
+               <string>Счетчик по фронту</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLCDNumber" name="value_1_counter">
+              <property name="digitCount">
+               <number>3</number>
+              </property>
+              <property name="segmentStyle">
+               <enum>QLCDNumber::Flat</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_211">
+              <property name="text">
+               <string>Длительнось импульса (1 и 0), c.</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLCDNumber" name="value_1_time_up">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLCDNumber" name="value_1_time_down">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_411">
+              <property name="text">
+               <string>Интервал по фронту, по спаду, с.</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLCDNumber" name="value_1_interval_up_front">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLCDNumber" name="value_1_interval_down_front">
+              <property name="digitCount">
+               <number>5</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

@@ -97,6 +97,7 @@ class Ui_MainWindow(object):
 
         self.value_0_counter = QLCDNumber(self.horizontalLayoutWidget)
         self.value_0_counter.setObjectName(u"value_0_counter")
+        self.value_0_counter.setDigitCount(3)
         self.value_0_counter.setSegmentStyle(QLCDNumber.Flat)
 
         self.verticalLayout_2.addWidget(self.value_0_counter)
@@ -108,11 +109,13 @@ class Ui_MainWindow(object):
 
         self.value_0_time_up = QLCDNumber(self.horizontalLayoutWidget)
         self.value_0_time_up.setObjectName(u"value_0_time_up")
+        self.value_0_time_up.setDigitCount(5)
 
         self.verticalLayout_2.addWidget(self.value_0_time_up)
 
         self.value_0_time_down = QLCDNumber(self.horizontalLayoutWidget)
         self.value_0_time_down.setObjectName(u"value_0_time_down")
+        self.value_0_time_down.setDigitCount(5)
 
         self.verticalLayout_2.addWidget(self.value_0_time_down)
 
@@ -123,16 +126,69 @@ class Ui_MainWindow(object):
 
         self.value_0_interval_up_front = QLCDNumber(self.horizontalLayoutWidget)
         self.value_0_interval_up_front.setObjectName(u"value_0_interval_up_front")
+        self.value_0_interval_up_front.setDigitCount(5)
 
         self.verticalLayout_2.addWidget(self.value_0_interval_up_front)
 
         self.value_0_interval_down_front = QLCDNumber(self.horizontalLayoutWidget)
         self.value_0_interval_down_front.setObjectName(u"value_0_interval_down_front")
+        self.value_0_interval_down_front.setDigitCount(5)
 
         self.verticalLayout_2.addWidget(self.value_0_interval_down_front)
 
 
         self.layout_intervals.addLayout(self.verticalLayout_2)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.label11 = QLabel(self.horizontalLayoutWidget)
+        self.label11.setObjectName(u"label11")
+
+        self.verticalLayout_3.addWidget(self.label11)
+
+        self.value_1_counter = QLCDNumber(self.horizontalLayoutWidget)
+        self.value_1_counter.setObjectName(u"value_1_counter")
+        self.value_1_counter.setDigitCount(3)
+        self.value_1_counter.setSegmentStyle(QLCDNumber.Flat)
+
+        self.verticalLayout_3.addWidget(self.value_1_counter)
+
+        self.label_211 = QLabel(self.horizontalLayoutWidget)
+        self.label_211.setObjectName(u"label_211")
+
+        self.verticalLayout_3.addWidget(self.label_211)
+
+        self.value_1_time_up = QLCDNumber(self.horizontalLayoutWidget)
+        self.value_1_time_up.setObjectName(u"value_1_time_up")
+        self.value_1_time_up.setDigitCount(5)
+
+        self.verticalLayout_3.addWidget(self.value_1_time_up)
+
+        self.value_1_time_down = QLCDNumber(self.horizontalLayoutWidget)
+        self.value_1_time_down.setObjectName(u"value_1_time_down")
+        self.value_1_time_down.setDigitCount(5)
+
+        self.verticalLayout_3.addWidget(self.value_1_time_down)
+
+        self.label_411 = QLabel(self.horizontalLayoutWidget)
+        self.label_411.setObjectName(u"label_411")
+
+        self.verticalLayout_3.addWidget(self.label_411)
+
+        self.value_1_interval_up_front = QLCDNumber(self.horizontalLayoutWidget)
+        self.value_1_interval_up_front.setObjectName(u"value_1_interval_up_front")
+        self.value_1_interval_up_front.setDigitCount(5)
+
+        self.verticalLayout_3.addWidget(self.value_1_interval_up_front)
+
+        self.value_1_interval_down_front = QLCDNumber(self.horizontalLayoutWidget)
+        self.value_1_interval_down_front.setObjectName(u"value_1_interval_down_front")
+        self.value_1_interval_down_front.setDigitCount(5)
+
+        self.verticalLayout_3.addWidget(self.value_1_interval_down_front)
+
+
+        self.layout_intervals.addLayout(self.verticalLayout_3)
 
         self.tabWidget.addTab(self.tab_2, "")
 
@@ -142,7 +198,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -158,9 +214,12 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u043d\u0438\u0435 \u0432\u043e\u0440\u043e\u0442 \u043d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0440\u0435\u043c\u044f \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0441\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u043d\u0438\u044f 1 -> 2", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0441\u043e\u0431\u044b\u0442\u0438\u044f\u043c", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0447\u0435\u0442\u0447\u0438\u043a \u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u044c \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u0430 (1 \u0438 0), c.", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b \u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443, \u043f\u043e \u0441\u043f\u0430\u0434\u0443, \u0441.", None))
+        self.label11.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0447\u0435\u0442\u0447\u0438\u043a \u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443", None))
+        self.label_211.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u044c \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u0430 (1 \u0438 0), c.", None))
+        self.label_411.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b \u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443, \u043f\u043e \u0441\u043f\u0430\u0434\u0443, \u0441.", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438", None))
     # retranslateUi
 

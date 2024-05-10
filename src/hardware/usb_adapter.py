@@ -39,6 +39,7 @@ class USBAdapter:
             return True
         except Exception as e:
             # print(e)
+            self._notify_connection(False)
             print("Connection failed")
             return False
 
@@ -46,6 +47,7 @@ class USBAdapter:
         if self.dev:
             return
         if not self.connect():
+            self._notify_connection(False)
             sleep(1)
             print("Reconnection...")
             return self._check_connection()
@@ -69,4 +71,5 @@ class USBAdapter:
 
     def call(self, cmd: bytes | List[int]) -> Optional[bytes]:
         self.write(cmd)
-        return self.read()[:16]
+        res = self.read()
+        return res[:16] if res is not None else None
