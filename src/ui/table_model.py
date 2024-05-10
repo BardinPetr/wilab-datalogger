@@ -128,3 +128,13 @@ class DoublePhotoGateTableModel(ListTableModel):
                 return value.end_relative
             case 3:
                 return value.duration
+
+
+class CheckpointPhotoGateTableModel(ListTableModel):
+    def __init__(self, parent, header):
+        super().__init__(parent, header)
+
+    def present_cell(self, row, col):
+        if col == 0:
+            return row + 1
+        return self.contents[row][col - 1]
