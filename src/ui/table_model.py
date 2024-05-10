@@ -1,7 +1,7 @@
 from PySide6 import QtCore
 from PySide6.QtCore import Qt, QAbstractTableModel
 
-from processing.photogate import TickHistoryItem
+from processing.photogate import TickHistoryItem, PairHistoryItem
 
 
 class ListTableModel(QAbstractTableModel):
@@ -30,7 +30,10 @@ class ListTableModel(QAbstractTableModel):
 
         if role == QtCore.Qt.DisplayRole:
             row, col = index.row(), index.column()
-            return self.contents[index.row()][index.column()]
+            return self.present_cell(row, col)
+
+    def present_cell(self, row, col):
+        return self.contents[row][col]
 
     def headerData(self, col, orientation, role=...):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
@@ -107,4 +110,21 @@ class SinglePhotoGateTableModel(ZipListTableModel):
         super().__init__(parent, header)
 
     def present_cell_by_column(self, col, value: TickHistoryItem):
-        return round(value.ts.timestamp() * 1000)
+        return round(value.relative_ms)
+
+
+class DoublePhotoGateTableModel(ListTableModel):
+    def __init__(self, parent, header):
+        super().__init__(parent, header)
+
+    def present_cell(self, row, col):
+        value: PairHistoryItem = self.contents[row]
+        match col:
+            case 0:
+                return row + 1
+            case 1:
+                return value.start_relative
+            case 2:
+                return value.end_relative
+            case 3:
+                return value.duration

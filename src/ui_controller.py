@@ -24,5 +24,8 @@ class UIControllerMain(QThread):
     def _on_update_pg(self, s_histories, d_histories):
         self.pg_models_changed.emit(s_histories, d_histories)
 
+    def reset_time(self):
+        self.data.zero_time()
+
     def run(self):
         self.ctrl.start()

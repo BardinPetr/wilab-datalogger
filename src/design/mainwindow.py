@@ -44,24 +44,40 @@ class Ui_MainWindow(object):
         self.tab.setObjectName(u"tab")
         self.gridLayoutWidget = QWidget(self.tab)
         self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
-        self.gridLayoutWidget.setGeometry(QRect(0, 10, 721, 471))
+        self.gridLayoutWidget.setGeometry(QRect(0, 10, 721, 441))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(8, 8, 8, 8)
         self.table_1 = QTableView(self.gridLayoutWidget)
         self.table_1.setObjectName(u"table_1")
 
-        self.gridLayout.addWidget(self.table_1, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.table_1, 2, 1, 1, 1)
 
-        self.btn_rst_table_0 = QPushButton(self.gridLayoutWidget)
-        self.btn_rst_table_0.setObjectName(u"btn_rst_table_0")
+        self.button_time_reset = QPushButton(self.gridLayoutWidget)
+        self.button_time_reset.setObjectName(u"button_time_reset")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.button_time_reset.sizePolicy().hasHeightForWidth())
+        self.button_time_reset.setSizePolicy(sizePolicy)
 
-        self.gridLayout.addWidget(self.btn_rst_table_0, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.button_time_reset, 3, 0, 1, 1)
 
         self.table_0 = QTableView(self.gridLayoutWidget)
         self.table_0.setObjectName(u"table_0")
+        self.table_0.setAutoScroll(True)
 
-        self.gridLayout.addWidget(self.table_0, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.table_0, 2, 0, 1, 1)
+
+        self.label_3 = QLabel(self.gridLayoutWidget)
+        self.label_3.setObjectName(u"label_3")
+
+        self.gridLayout.addWidget(self.label_3, 1, 0, 1, 1)
+
+        self.label_5 = QLabel(self.gridLayoutWidget)
+        self.label_5.setObjectName(u"label_5")
+
+        self.gridLayout.addWidget(self.label_5, 1, 1, 1, 1)
 
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
@@ -81,6 +97,7 @@ class Ui_MainWindow(object):
 
         self.value_0_counter = QLCDNumber(self.horizontalLayoutWidget)
         self.value_0_counter.setObjectName(u"value_0_counter")
+        self.value_0_counter.setSegmentStyle(QLCDNumber.Flat)
 
         self.verticalLayout_2.addWidget(self.value_0_counter)
 
@@ -134,7 +151,12 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"WiLAB ITMO", None))
         self.connectionLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.btn_rst_table_0.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.button_time_reset.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0431\u043d\u0443\u043b\u0438\u0442\u044c \u0447\u0430\u0441\u044b [Backspace]", None))
+#if QT_CONFIG(shortcut)
+        self.button_time_reset.setShortcut(QCoreApplication.translate("MainWindow", u"Backspace", None))
+#endif // QT_CONFIG(shortcut)
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u043d\u0438\u0435 \u0432\u043e\u0440\u043e\u0442 \u043d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0440\u0435\u043c\u044f \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0441\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u043d\u0438\u044f 1 -> 2", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0441\u043e\u0431\u044b\u0442\u0438\u044f\u043c", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
