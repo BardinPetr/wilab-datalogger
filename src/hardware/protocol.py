@@ -1,14 +1,15 @@
 from typing import Optional
 
-from commands import *
-from slots import SlotManager
-from adapter import USBAdapter
+from hardware.commands import *
+from hardware.status import Intervals
+from hardware.usb_adapter import USBAdapter
+from hardware.slots import SlotManager
 
 
 class Interface(USBAdapter):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, on_conn_state):
+        super().__init__(on_conn_state)
         self._slot = SlotManager(VOLTAGE_SENSOR_IDS)
 
     def led(self, r: int, g: int, b: int):
