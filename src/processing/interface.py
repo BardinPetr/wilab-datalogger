@@ -8,7 +8,7 @@ from processing.counter import Counter
 
 
 class InterfaceController:
-    UPDATE_INTERVAL = 0.05
+    UPDATE_INTERVAL = 0.05  # more than 20Hz is dangerous, as it lowers stability of reads
     COUNTER_THRESHOLD = 2
     SENSOR_COUNT = 2
 
@@ -47,47 +47,45 @@ class InterfaceController:
                     data = Intervals()
 
                 self._port_status[i] = data
-
-            self._handle_interval_differ()
-
-            for i in range(2):
                 self.counters[i].external_event(self._port_status[i].counter)
+
+            # self._handle_interval_differ()
 
             sleep(self.UPDATE_INTERVAL)
 
-    def _handle_interval_differ(self):
-        return
-        if not self._last_intervals:
-            self._last_intervals = self._port_status[:]
-            return
-        if self._last_intervals == self._port_status:
-            return
-
-        uid = 0 if self._last_intervals[0] != self._port_status[0] else 1
-        last, cur = self._last_intervals[uid], self._port_status[uid]
-
-        diffs = [last[i] == cur[i] for i in range(4)]
-        diff_cnt = sum(diffs)
-        # print(diff_cnt, *map(int, diffs))
-
-        if diff_cnt % 2 != 0:
-            # print("FC")
-            return
-
-        is_front = last.time_down != cur.time_down
-
-        if is_front == self._last_front[uid]:
-            # print("FF")
-            return
-        self._last_front[uid] = is_front
-
-        from_opposite = cur.time_down if is_front else cur.time_up
-        from_same = cur.interval_up_front if is_front else cur.interval_down_front
-
-        print(f"{uid=} {is_front=} {from_opposite=} {from_same=}")
-
-        self._on_intervals_differ(uid, is_front, from_opposite, from_same)
-        self._last_intervals = self._port_status[:]
+    # def _handle_interval_differ(self):
+    #     return
+    #     if not self._last_intervals:
+    #         self._last_intervals = self._port_status[:]
+    #         return
+    #     if self._last_intervals == self._port_status:
+    #         return
+    #
+    #     uid = 0 if self._last_intervals[0] != self._port_status[0] else 1
+    #     last, cur = self._last_intervals[uid], self._port_status[uid]
+    #
+    #     diffs = [last[i] == cur[i] for i in range(4)]
+    #     diff_cnt = sum(diffs)
+    #     # print(diff_cnt, *map(int, diffs))
+    #
+    #     if diff_cnt % 2 != 0:
+    #         # print("FC")
+    #         return
+    #
+    #     is_front = last.time_down != cur.time_down
+    #
+    #     if is_front == self._last_front[uid]:
+    #         # print("FF")
+    #         return
+    #     self._last_front[uid] = is_front
+    #
+    #     from_opposite = cur.time_down if is_front else cur.time_up
+    #     from_same = cur.interval_up_front if is_front else cur.interval_down_front
+    #
+    #     print(f"{uid=} {is_front=} {from_opposite=} {from_same=}")
+    #
+    #     self._on_intervals_differ(uid, is_front, from_opposite, from_same)
+    #     self._last_intervals = self._port_status[:]
 
     def get(self) -> Tuple[Intervals, Intervals]:
         return self._port_status[:]

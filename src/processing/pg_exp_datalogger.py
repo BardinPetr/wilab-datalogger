@@ -41,23 +41,29 @@ class PhotoGateExpDatalogger(PhotoGateDatalogger):
         self.interface.subscribe_interval_diff(self.on_change)
 
     def on_tick(self, uid: int, ts: datetime):
-        # print("T")
         if self.current is None:
             return
 
-    def on_change(self, uid, is_front, from_opposite, from_same):
-        if self.current is None:
-            return
+        intervals = self.interface.get()[uid]
 
-        if is_front:
-            return
-
-        # print(f"! {uid} at {ts.timestamp()}")
-        delta_ms = from_opposite * 1000
+        delta_ms = intervals.time_up * 1000
         time_ms = self.prepare_time(datetime.now()) - delta_ms
         self.current[uid].append((time_ms, delta_ms))
 
+    def on_change(self, uid, is_front, from_opposite, from_same):
+        pass
+
+    #     if self.current is None:
+    #         return
+    #     if is_front:
+    #         return
+    #     # print(f"! {uid} at {ts.timestamp()}")
+    #     delta_ms = from_opposite * 1000
+    #     time_ms = self.prepare_time(datetime.now()) - delta_ms
+    #     self.current[uid].append((time_ms, delta_ms))
+
     def begin(self):
+        self.enable(True)
         self.current = [[], []]
 
     def end(self):
@@ -65,7 +71,6 @@ class PhotoGateExpDatalogger(PhotoGateDatalogger):
             return
 
         res = exp_as_arr(self.current)
-        print(res)
         self.history.append(res)
         self.fire_update(res)
         self.current = None
