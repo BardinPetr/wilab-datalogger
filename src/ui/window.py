@@ -3,8 +3,9 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog
 
 from design.mainwindow import Ui_MainWindow
 from hardware.status import Intervals
-from ui.table_model import SinglePhotoGateTableModel, DoublePhotoGateTableModel, CheckpointPhotoGateTableModel
-from ui.ui_controller import UIControllerMain, CHECKPOINT_TABLE_HEADERS
+from ui.table_model import SinglePhotoGateTableModel, DoublePhotoGateTableModel, CheckpointPhotoGateTableModel, \
+    ExpPhotoGateTableModel
+from ui.ui_controller import UIControllerMain
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -16,18 +17,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.ctrl.connection_changed.connect(self._on_connection_changed)
         self.ctrl.intervals_changed.connect(self._on_intervals_update)
+        self.ctrl.pg_model0_changed.connect(self._on_table0_update)
+        self.ctrl.pg_model1_changed.connect(self._on_table1_update)
         self.ctrl.pg_models_changed.connect(self._on_table_update)
         self.ctrl.checkpoint_model_changed.connect(self._on_checkpoint_table_update)
+        self.ctrl.exp_model_changed.connect(self._on_exp_table_update)
 
-        self.pg_single_model = SinglePhotoGateTableModel(self, ["Ворота 1, мс", "Ворота 2, мс"])
-        self.table_0.setModel(self.pg_single_model)
+        self.pg_single_model = SinglePhotoGateTableModel(self)
+        self.pg_single_model.install(self.table_0)
 
-        self.pg_double_model = DoublePhotoGateTableModel(self, ["№", "Ворота 1, мс", "Ворота 2, мс", "Промежуток, мс"])
-        self.table_1.setModel(self.pg_double_model)
+        self.pg_double_model = DoublePhotoGateTableModel(self)
+        self.pg_double_model.install(self.table_1)
 
-        self.pg_timed_model = CheckpointPhotoGateTableModel(self, CHECKPOINT_TABLE_HEADERS)
-        self.table_cnts.setModel(self.pg_timed_model)
-        self.table_cnts.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.pg_timed_model = CheckpointPhotoGateTableModel(self)
+        self.pg_timed_model.install(self.table_cnts)
+
+        self.pg_exp_model = ExpPhotoGateTableModel(self)
+        self.pg_exp_model.install(self.table_exp)
 
         self.button_time_reset.clicked.connect(self._reset_time)
         self.button_save_s.clicked.connect(self._save_single)
@@ -35,6 +41,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.button_add.clicked.connect(lambda x: self.ctrl.timed_store())
         self.button_save_t.clicked.connect(self._save_timed)
+
+        self.autoStore.stateChanged.connect(
+            lambda: self.ctrl.change_timer(self.autoStore.isChecked(), self.timeFreq.value())
+        )
+
+        self.exp_run.stateChanged.connect(lambda x: self.ctrl.exp_run(self.exp_run.isChecked()))
+        self.exp_save.clicked.connect(self._save_exp)
+
+        self.on_checkbox.stateChanged.connect(lambda x: self.ctrl.data.enable(x))
 
         self.ctrl.start()
 
@@ -63,6 +78,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         self.ctrl.save_csv_timed(filename)
 
+    def _save_exp(self):
+        filename = self._file_path_dialog()
+        if filename is None:
+            return
+        self.ctrl.save_csv_exp(filename)
+
     def _on_connection_changed(self, is_connected):
         self.connectionLabel.setText("Connected" if is_connected else "Disconnected")
 
@@ -79,9 +100,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.table_0.scrollToBottom()
         self.table_1.scrollToBottom()
 
-    def _on_checkpoint_table_update(self, table):
-        self.pg_timed_model.replace(table)
+    def _on_table0_update(self, row):
+        self.pg_single_model.append(row)
+        self.table_0.scrollToBottom()
+
+    def _on_table1_update(self, row):
+        self.pg_double_model.append(row)
+        self.table_1.scrollToBottom()
+
+    def _on_checkpoint_table_update(self, row):
+        self.pg_timed_model.append(row)
         self.table_cnts.scrollToBottom()
+
+    def _on_exp_table_update(self, row):
+        self.pg_exp_model.append(row)
+        self.table_exp.scrollToBottom()
 
     def _reset_time(self):
         self.ctrl.reset_time()
+
+    def closeEvent(self, event):
+        self.ctrl.stop()
+        self.ctrl.terminate()
+        event.accept()

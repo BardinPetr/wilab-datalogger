@@ -2,15 +2,15 @@ import csv
 from datetime import datetime
 from itertools import zip_longest
 
-from PySide6.QtCore import Signal, QThread
+from PySide6.QtCore import Signal, QThread, QTimer
 
 from hardware.status import Intervals
+from processing.datalogger import PhotoGateDatalogger
 from processing.interface import InterfaceController
-from processing.photogate import PhotoGateDatalogger
 
-CHECKPOINT_TABLE_HEADERS = [
-    "№", "time ms", *[f"{n} {i}" for i in range(1, 3) for n in ("cnt", "up-down", "down-up", "up-up", "down-down")]
-]
+from processing.pg_exp_datalogger import PhotoGateExpDatalogger
+from processing.pg_pairing_datalogger import PhotoGatePairingDatalogger
+from ui.table_model import CheckpointPhotoGateTableModel, ExpPhotoGateTableModel
 
 
 def save_csv(filename, headers, data):
@@ -23,22 +23,45 @@ def save_csv(filename, headers, data):
 class UIControllerMain(QThread):
     connection_changed = Signal(bool)
     intervals_changed = Signal(Intervals, Intervals)
+    pg_model0_changed = Signal(list)
+    pg_model1_changed = Signal(list)
     pg_models_changed = Signal(list, list)
     checkpoint_model_changed = Signal(list)
+    exp_model_changed = Signal(list)
 
     def __init__(self):
         super().__init__()
         self.ctrl = InterfaceController(
             lambda conn_state: self.connection_changed.emit(conn_state),
-            lambda intervals: self.intervals_changed.emit(*intervals)
         )
-        self.data = PhotoGateDatalogger(self.ctrl.counters)
-        self.data.subscribe(self._on_update_pg)
+
+        self.data = PhotoGatePairingDatalogger(self.ctrl)
+        self.data.subscribe(lambda a, b: self.pg_models_changed.emit(a, b))
+        # self.data.subscribe(self.push_main_tables)
+
+        self.exp = PhotoGateExpDatalogger(self.ctrl)
+        self.exp.subscribe(
+            lambda table: self.exp_model_changed.emit(table)
+        )
 
         self.checkpoints = []
 
-    def _on_update_pg(self, s_histories, d_histories):
-        self.pg_models_changed.emit(s_histories, d_histories)
+        self.store_timer = QTimer(self)
+        self.store_timer.timeout.connect(self.timed_store)
+
+        self.update_timer = QTimer(self)
+        self.update_timer.timeout.connect(self.update_intervals)
+        self.update_timer.start(100)
+
+    def push_main_tables(self, t0row, t1row):
+        if t0row:
+            self.pg_model0_changed.emit(t0row)
+        if t1row:
+            self.pg_model0_changed.emit(t1row)
+
+
+    def update_intervals(self):
+        self.intervals_changed.emit(*self.ctrl.get())
 
     def reset_time(self):
         self.data.zero_time()
@@ -71,8 +94,15 @@ class UIControllerMain(QThread):
     def save_csv_timed(self, filename):
         save_csv(
             filename,
-            CHECKPOINT_TABLE_HEADERS[1:],
+            CheckpointPhotoGateTableModel.HEADER,
             self.checkpoints
+        )
+
+    def save_csv_exp(self, filename):
+        save_csv(
+            filename,
+            ExpPhotoGateTableModel.HEADER,
+            self.exp.history
         )
 
     def timed_store(self):
@@ -80,11 +110,29 @@ class UIControllerMain(QThread):
             [i.counter, i.time_up, i.time_down, i.interval_up_front, i.interval_down_front]
             for i in self.ctrl.get()
         ]
-        self.checkpoints.append((
+        row = (
             round(datetime.now().timestamp() * 1000),
             *data[0], *data[1]
-        ))
-        self.checkpoint_model_changed.emit(self.checkpoints)
+        )
+        self.checkpoints.append(row)
+        self.checkpoint_model_changed.emit(row)
+
+    def change_timer(self, enable, freq_hz):
+        if not enable:
+            self.store_timer.stop()
+            return
+
+        int_ms = 1000 // freq_hz
+        self.store_timer.start(int_ms)
+
+    def exp_run(self, start):
+        if start:
+            self.exp.begin()
+        else:
+            self.exp.end()
 
     def run(self):
         self.ctrl.start()
+
+    def stop(self):
+        self.ctrl.stop()

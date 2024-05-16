@@ -1,14 +1,25 @@
-from PySide6 import QtCore
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QAbstractTableModel
 
-from processing.photogate import TickHistoryItem, PairHistoryItem
+from processing.pg_pairing_datalogger import PairHistoryItem, TickHistoryItem
 
 
-class ListTableModel(QAbstractTableModel):
+class BaseTableModel(QAbstractTableModel):
+
     def __init__(self, parent, header):
         QAbstractTableModel.__init__(self, parent)
+        self._header = ["№", *header]
+
+    def install(self, table, auto_size=True):
+        table.setModel(self)
+        if auto_size:
+            table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+
+
+class ListTableModel(BaseTableModel):
+    def __init__(self, parent, header):
+        super().__init__(parent, header)
         self.contents = []
-        self._header = header
 
     def update(self, start_row=0, end_row=0):
         self.layoutAboutToBeChanged.emit()
@@ -55,11 +66,10 @@ class ListTableModel(QAbstractTableModel):
         self.update()
 
 
-class ZipListTableModel(QAbstractTableModel):
+class ZipListTableModel(BaseTableModel):
     def __init__(self, parent, header):
-        QAbstractTableModel.__init__(self, parent)
+        super().__init__(parent, header)
         self.column_lists = [[] for _ in range(len(header))]
-        self._header = ["№", *header]
 
     def update(self, start_row=0, end_row=0):
         self.layoutAboutToBeChanged.emit()
@@ -106,16 +116,20 @@ class ZipListTableModel(QAbstractTableModel):
 
 
 class SinglePhotoGateTableModel(ZipListTableModel):
-    def __init__(self, parent, header):
-        super().__init__(parent, header)
+    HEADER = ["Ворота 1, мс", "Ворота 2, мс"]
+
+    def __init__(self, parent):
+        super().__init__(parent, self.HEADER)
 
     def present_cell_by_column(self, col, value: TickHistoryItem):
         return round(value.relative_ms)
 
 
 class DoublePhotoGateTableModel(ListTableModel):
-    def __init__(self, parent, header):
-        super().__init__(parent, header)
+    HEADER = ["Ворота 1, мс", "Ворота 2, мс", "Промежуток, мс"]
+
+    def __init__(self, parent):
+        super().__init__(parent, self.HEADER)
 
     def present_cell(self, row, col):
         value: PairHistoryItem = self.contents[row]
@@ -131,8 +145,26 @@ class DoublePhotoGateTableModel(ListTableModel):
 
 
 class CheckpointPhotoGateTableModel(ListTableModel):
-    def __init__(self, parent, header):
-        super().__init__(parent, header)
+    HEADER = [
+        "time ms", *[f"{n} {i}" for i in range(1, 3) for n in ("cnt", "up-down", "down-up", "up-up", "down-down")]
+    ]
+
+    def __init__(self, parent):
+        super().__init__(parent, self.HEADER)
+
+    def present_cell(self, row, col):
+        if col == 0:
+            return row + 1
+        return self.contents[row][col - 1]
+
+
+class ExpPhotoGateTableModel(ListTableModel):
+    HEADER = ["Время Л1, мс", "Длительность Л1, мс", "Время П1, мс",
+              "Длительность П1, мс", "Время Л2, мс", "Длительность Л2, мс",
+              "Время П2, мс", "Длительность П2, мс"]
+
+    def __init__(self, parent):
+        super().__init__(parent, self.HEADER)
 
     def present_cell(self, row, col):
         if col == 0:

@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QHeaderView,
-    QLCDNumber, QLabel, QMainWindow, QPushButton,
-    QSizePolicy, QTabWidget, QTableView, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QHBoxLayout,
+    QHeaderView, QLCDNumber, QLabel, QMainWindow,
+    QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
+    QTabWidget, QTableView, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -51,10 +51,26 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 1)
 
-        self.label_5 = QLabel(self.tab)
-        self.label_5.setObjectName(u"label_5")
+        self.table_0 = QTableView(self.tab)
+        self.table_0.setObjectName(u"table_0")
+        self.table_0.setAutoScroll(True)
 
-        self.gridLayout.addWidget(self.label_5, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.table_0, 2, 0, 1, 1)
+
+        self.table_1 = QTableView(self.tab)
+        self.table_1.setObjectName(u"table_1")
+
+        self.gridLayout.addWidget(self.table_1, 2, 1, 1, 1)
+
+        self.on_checkbox = QCheckBox(self.tab)
+        self.on_checkbox.setObjectName(u"on_checkbox")
+
+        self.gridLayout.addWidget(self.on_checkbox, 0, 0, 1, 1)
+
+        self.button_save_d = QPushButton(self.tab)
+        self.button_save_d.setObjectName(u"button_save_d")
+
+        self.gridLayout.addWidget(self.button_save_d, 3, 1, 1, 1)
 
         self.button_time_reset = QPushButton(self.tab)
         self.button_time_reset.setObjectName(u"button_time_reset")
@@ -66,26 +82,15 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.button_time_reset, 4, 0, 1, 1)
 
+        self.label_5 = QLabel(self.tab)
+        self.label_5.setObjectName(u"label_5")
+
+        self.gridLayout.addWidget(self.label_5, 1, 1, 1, 1)
+
         self.button_save_s = QPushButton(self.tab)
         self.button_save_s.setObjectName(u"button_save_s")
 
         self.gridLayout.addWidget(self.button_save_s, 3, 0, 1, 1)
-
-        self.table_1 = QTableView(self.tab)
-        self.table_1.setObjectName(u"table_1")
-
-        self.gridLayout.addWidget(self.table_1, 2, 1, 1, 1)
-
-        self.table_0 = QTableView(self.tab)
-        self.table_0.setObjectName(u"table_0")
-        self.table_0.setAutoScroll(True)
-
-        self.gridLayout.addWidget(self.table_0, 2, 0, 1, 1)
-
-        self.button_save_d = QPushButton(self.tab)
-        self.button_save_d.setObjectName(u"button_save_d")
-
-        self.gridLayout.addWidget(self.button_save_d, 3, 1, 1, 1)
 
 
         self.gridLayout_3.addLayout(self.gridLayout, 0, 0, 1, 1)
@@ -227,6 +232,27 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.autoStore = QCheckBox(self.tab_2)
+        self.autoStore.setObjectName(u"autoStore")
+
+        self.verticalLayout_7.addWidget(self.autoStore)
+
+        self.label_6 = QLabel(self.tab_2)
+        self.label_6.setObjectName(u"label_6")
+
+        self.verticalLayout_7.addWidget(self.label_6)
+
+        self.timeFreq = QSpinBox(self.tab_2)
+        self.timeFreq.setObjectName(u"timeFreq")
+        self.timeFreq.setMinimum(1)
+        self.timeFreq.setMaximum(5)
+
+        self.verticalLayout_7.addWidget(self.timeFreq)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_7.addItem(self.verticalSpacer_2)
+
         self.button_add = QPushButton(self.tab_2)
         self.button_add.setObjectName(u"button_add")
         sizePolicy.setHeightForWidth(self.button_add.sizePolicy().hasHeightForWidth())
@@ -239,6 +265,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7.addWidget(self.button_save_t)
 
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_7.addItem(self.verticalSpacer)
+
 
         self.layout_intervals.addLayout(self.verticalLayout_7)
 
@@ -246,6 +276,41 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addLayout(self.layout_intervals, 0, 0, 1, 1)
 
         self.tabWidget.addTab(self.tab_2, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.gridLayout_5 = QGridLayout(self.tab_3)
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.exp_run = QCheckBox(self.tab_3)
+        self.exp_run.setObjectName(u"exp_run")
+        self.exp_run.setIconSize(QSize(32, 32))
+
+        self.horizontalLayout.addWidget(self.exp_run)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.exp_save = QPushButton(self.tab_3)
+        self.exp_save.setObjectName(u"exp_save")
+
+        self.horizontalLayout.addWidget(self.exp_save)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout)
+
+
+        self.gridLayout_5.addLayout(self.verticalLayout_5, 0, 0, 1, 1)
+
+        self.table_exp = QTableView(self.tab_3)
+        self.table_exp.setObjectName(u"table_exp")
+
+        self.gridLayout_5.addWidget(self.table_exp, 1, 0, 1, 1)
+
+        self.tabWidget.addTab(self.tab_3, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
 
@@ -256,7 +321,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -266,13 +331,14 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"WiLAB ITMO", None))
         self.connectionLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0435 \u0441\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u043d\u0438\u0435 \u0432\u043e\u0440\u043e\u0442", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0441\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u043d\u0438\u0435 1 -> 2", None))
+        self.on_checkbox.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0430\u0431\u043e\u0442\u0430", None))
+        self.button_save_d.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
         self.button_time_reset.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0431\u043d\u0443\u043b\u0438\u0442\u044c \u0447\u0430\u0441\u044b [Backspace]", None))
 #if QT_CONFIG(shortcut)
         self.button_time_reset.setShortcut(QCoreApplication.translate("MainWindow", u"Backspace", None))
 #endif // QT_CONFIG(shortcut)
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0441\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u043d\u0438\u0435 1 -> 2", None))
         self.button_save_s.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
-        self.button_save_d.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0441\u043e\u0431\u044b\u0442\u0438\u044f\u043c", None))
         self.label_v0.setText(QCoreApplication.translate("MainWindow", u"\u0412\u043e\u0440\u043e\u0442\u0430 1", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0447\u0435\u0442\u0447\u0438\u043a \u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443", None))
@@ -290,11 +356,19 @@ class Ui_MainWindow(object):
         self.label_41.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443, \u043f\u043e \u0441\u043f\u0430\u0434\u0443)", None))
         self.value_1_interval_up_front.setText(QCoreApplication.translate("MainWindow", u"----", None))
         self.value_1_interval_down_front.setText(QCoreApplication.translate("MainWindow", u"----", None))
+        self.autoStore.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u0437\u0430\u043f\u0438\u0441\u044c", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"\u0427\u0430\u0441\u0442\u043e\u0442\u0430 \u0437\u0430\u043f\u0438\u0441\u0438 \u0413\u0446", None))
         self.button_add.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u043f\u0438\u0441\u0430\u0442\u044c [Enter]", None))
 #if QT_CONFIG(shortcut)
         self.button_add.setShortcut(QCoreApplication.translate("MainWindow", u"Return", None))
 #endif // QT_CONFIG(shortcut)
         self.button_save_t.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438", None))
+        self.exp_run.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u043f\u0438\u0441\u044c [Enter]", None))
+#if QT_CONFIG(shortcut)
+        self.exp_run.setShortcut(QCoreApplication.translate("MainWindow", u"Return", None))
+#endif // QT_CONFIG(shortcut)
+        self.exp_save.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043b\u0435\u0436\u043a\u0438", None))
     # retranslateUi
 

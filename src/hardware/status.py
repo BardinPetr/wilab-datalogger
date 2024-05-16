@@ -12,4 +12,4 @@ class Intervals:
     counter: int = 0
 
     def __getitem__(self, item: TriggerType):
-        return [self.interval_up_front, self.interval_down_front, self.time_up, self.time_down][item]
+        return [self.interval_up_front, self.interval_down_front, self.time_up, self.time_down, self.counter][item]

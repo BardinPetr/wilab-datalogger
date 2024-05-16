@@ -50,7 +50,7 @@ class Interface(USBAdapter):
         val = self.call([ReadPortIdentifiers.READ_COUNT[slot]])
         if val is None:
             return None
-        return val[0]
+        return int.from_bytes(val[:2], 'little')
 
     def get_interval(self, port: int, type: int) -> Optional[int]:
         slot = self._slot.slot_by_port(port)
@@ -60,7 +60,7 @@ class Interface(USBAdapter):
         data = self.call([*Commands.READ_INTERVAL, ReadPortIdentifiers.READ_INTERVAL[slot] + type])
         if data is None:
             return None
-        data = int.from_bytes(data[:2], 'little')
+        data = int.from_bytes(data[:3], 'little')
         data /= 10000
         return data
 

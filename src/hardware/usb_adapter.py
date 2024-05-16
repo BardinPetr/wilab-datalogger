@@ -16,15 +16,20 @@ class USBAdapter:
         self._on_conn_state = on_conn_state
         self._cur_conn_state = None
         self.dev = None
+        self._running = False
 
     def _notify_connection(self, state):
         if state != self._cur_conn_state:
             self._cur_conn_state = state
             self._on_conn_state(state)
 
-    def init(self):
+    def start(self):
+        self._running = True
         self._notify_connection(False)
         self._check_connection()
+
+    def stop(self):
+        self._running = False
 
     def connect(self) -> bool:
         print("Connecting")
@@ -49,8 +54,9 @@ class USBAdapter:
         if not self.connect():
             self._notify_connection(False)
             sleep(1)
-            print("Reconnection...")
-            return self._check_connection()
+            if self._running:
+                print("Reconnection...")
+                return self._check_connection()
 
     def write(self, data: bytes | List[int]) -> bool:
         self._check_connection()

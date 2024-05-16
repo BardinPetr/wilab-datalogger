@@ -9,12 +9,10 @@ class Counter:
         self._current: int = 0
         self._handlers: Dict[str, List[Callable]] = {
             'tick':   [],
-            'update': []
         }
 
-    def subscribe(self, on_tick, on_update):
+    def subscribe(self, on_tick):
         self._handlers['tick'].append(on_tick)
-        self._handlers['update'].append(on_update)
 
     def _fire(self, evt: str, ts: datetime, *args, **kwargs):
         for cb in self._handlers[evt]:
@@ -31,7 +29,6 @@ class Counter:
             for _ in range(diff):
                 self._fire('tick', ts)
 
-        self._fire('update', ts, new_val)
         self._current = new_val
 
     def reset(self):

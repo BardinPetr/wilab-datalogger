@@ -23,7 +23,7 @@ class ReadPortIdentifiers(list, Enum):
 class CounterType(int, Enum):
     COUNT_FRONT_UP = 0x08
     COUNT_FRONT_UPDOWN = 0x48
-    COUNT_FRONT_DOWN = 0x88
+    COUNT_FRONT_DOWN = 0x80
 
 
 class TriggerType(int, Enum):
