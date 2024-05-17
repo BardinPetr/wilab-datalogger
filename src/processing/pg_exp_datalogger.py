@@ -69,6 +69,7 @@ class PhotoGateExpDatalogger(PhotoGateDatalogger):
     def begin(self):
         self.enable(True)
         self.current = [[], []]
+        self.zero_time()
 
     def end(self):
         if self.current is None:

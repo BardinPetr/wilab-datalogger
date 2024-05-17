@@ -166,8 +166,9 @@ class CheckpointPhotoGateTableModel(ListTableModel):
 
 
 class ExpPhotoGateTableModel(ListTableModel):
-    HEADER = ["Время Л1, мс", "Длительность Л1, мс", "Время П1, мс",
-              "Длительность П1, мс", "Время Л2, мс", "Длительность Л2, мс",
+    HEADER = ["Время Л1, мс", "Длительность Л1, мс",
+              "Время Л2, мс", "Длительность Л2, мс",
+              "Время П1, мс", "Длительность П1, мс",
               "Время П2, мс", "Длительность П2, мс"]
 
     def __init__(self, parent):
