@@ -7,6 +7,10 @@ from ui.table_model import SinglePhotoGateTableModel, DoublePhotoGateTableModel,
     ExpPhotoGateTableModel
 from ui.ui_controller import UIControllerMain
 
+import signal
+
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
