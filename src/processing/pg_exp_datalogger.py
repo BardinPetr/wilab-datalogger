@@ -62,6 +62,10 @@ class PhotoGateExpDatalogger(PhotoGateDatalogger):
     #     time_ms = self.prepare_time(datetime.now()) - delta_ms
     #     self.current[uid].append((time_ms, delta_ms))
 
+    def reset(self):
+        self.history = []
+        self.current = None
+
     def begin(self):
         self.enable(True)
         self.current = [[], []]

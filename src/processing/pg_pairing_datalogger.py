@@ -38,7 +38,12 @@ class PhotoGatePairingDatalogger(PhotoGateDatalogger):
 
         self.tick_history: List[List[TickHistoryItem]] = [[] for _ in range(self.count)]
         self.pair_history: List[PairHistoryItem] = []
+        self._pairing_state = PairingState.WAIT_FIRST
+        self._pairing_prev_ts = None
 
+    def reset(self):
+        self.tick_history = [[] for _ in range(self.count)]
+        self.pair_history = []
         self._pairing_state = PairingState.WAIT_FIRST
         self._pairing_prev_ts = None
 

@@ -1,3 +1,5 @@
+from typing import List
+
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QAbstractTableModel
 
@@ -69,7 +71,12 @@ class ListTableModel(BaseTableModel):
 class ZipListTableModel(BaseTableModel):
     def __init__(self, parent, header):
         super().__init__(parent, header)
-        self.column_lists = [[] for _ in range(len(header))]
+        self.column_lists: List[List] = None
+        self.clear()
+
+    def clear(self):
+        self.column_lists = [[] for _ in range(len(self._header))]
+        self.replace(self.column_lists)
 
     def update(self, start_row=0, end_row=0):
         self.layoutAboutToBeChanged.emit()

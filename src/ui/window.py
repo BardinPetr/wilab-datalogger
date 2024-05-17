@@ -51,7 +51,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.on_checkbox.stateChanged.connect(lambda x: self.ctrl.data.enable(x))
 
+        self.button_clear.clicked.connect(self.clear)
+
         self.ctrl.start()
+
+    def clear(self):
+        self.ctrl.reset()
+        self.pg_single_model.clear()
+        self.pg_double_model.replace([])
+        self.pg_timed_model.replace([])
+        self.pg_exp_model.replace([])
 
     def _file_path_dialog(self):
         filepath, _ = QFileDialog.getSaveFileName(self, "Save CSV", filter="CSV files (*.csv)")

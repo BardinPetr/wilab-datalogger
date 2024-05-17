@@ -59,7 +59,6 @@ class UIControllerMain(QThread):
         if t1row:
             self.pg_model0_changed.emit(t1row)
 
-
     def update_intervals(self):
         self.intervals_changed.emit(*self.ctrl.get())
 
@@ -130,6 +129,11 @@ class UIControllerMain(QThread):
             self.exp.begin()
         else:
             self.exp.end()
+
+    def reset(self):
+        self.checkpoints = []
+        self.data.reset()
+        self.exp.reset()
 
     def run(self):
         self.ctrl.start()
