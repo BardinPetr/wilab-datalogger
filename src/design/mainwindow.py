@@ -377,7 +377,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -401,7 +401,7 @@ class Ui_MainWindow(object):
                         "\u0430\u0442\u0443\u0440\u0435. \u0414\u043b\u044f \u0437\u0430\u043f\u0443\u0441\u043a\u0430, \u043f\u043e\u0441\u0442\u0430\u0432\u044c\u0442\u0435 \u0444\u043b\u0430\u0436\u043e\u043a \"\u0420\u0430\u0431\u043e\u0442\u0430\". ", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0441\u043e\u0431\u044b\u0442\u0438\u044f\u043c", None))
         self.label_v0.setText(QCoreApplication.translate("MainWindow", u"\u0412\u043e\u0440\u043e\u0442\u0430 1", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0447\u0435\u0442\u0447\u0438\u043a \u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0447\u0435\u0442\u0447\u0438\u043a \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u043e\u0432", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u0430 (1 \u0438 0)", None))
         self.value_0_time_up.setText(QCoreApplication.translate("MainWindow", u"----", None))
         self.value_0_time_down.setText(QCoreApplication.translate("MainWindow", u"----", None))
@@ -409,7 +409,7 @@ class Ui_MainWindow(object):
         self.value_0_interval_up_front.setText(QCoreApplication.translate("MainWindow", u"----", None))
         self.value_0_interval_down_front.setText(QCoreApplication.translate("MainWindow", u"----", None))
         self.label_v1.setText(QCoreApplication.translate("MainWindow", u"\u0412\u043e\u0440\u043e\u0442\u0430 2", None))
-        self.label1.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0447\u0435\u0442\u0447\u0438\u043a \u043f\u043e \u0444\u0440\u043e\u043d\u0442\u0443", None))
+        self.label1.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0447\u0435\u0442\u0447\u0438\u043a \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u043e\u0432", None))
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u0430 (1 \u0438 0)", None))
         self.value_1_time_up.setText(QCoreApplication.translate("MainWindow", u"----", None))
         self.value_1_time_down.setText(QCoreApplication.translate("MainWindow", u"----", None))
